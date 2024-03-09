@@ -32,6 +32,8 @@ fn write_struct<W: Write>(
         return Ok(());
     }
 
+    let rusty_name = rustifier::definitions::type_name(def);
+
     writeln!(file, "{}", rustifier::definitions::description(def, "    "))?;
 
     let serde_as = def
@@ -51,8 +53,7 @@ fn write_struct<W: Write>(
 
     writeln!(
         file,
-        "    pub struct {} {{",
-        rustifier::definitions::type_name(def),
+        "    pub struct {rusty_name} {{",
     )?;
 
     for param in def.params.iter() {
@@ -88,6 +89,17 @@ fn write_struct<W: Write>(
     }
 
     writeln!(file, "    }}")?;
+
+    if rusty_name == "Error" {
+        writeln!(file, "    impl std::fmt::Display for Error {{")?;
+        writeln!(file, "        fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {{")?;
+        writeln!(file, "            write!(f, \"{{}} [Code: {{}}]\", self.message, self.code)")?;
+        writeln!(file, "        }}")?;
+        writeln!(file, "    }}")?;
+        writeln!(file, "")?;
+        writeln!(file, "impl std::error::Error for Error {{}}")?;
+    }
+
     Ok(())
 }
 
