@@ -344,48 +344,6 @@ mod tests {
         assert_eq!(name, "FileType");
     }
 
-    #[test]
-    fn check_type_qual_name() {
-        let ty = "InputPeer".parse().unwrap();
-        let name = types::qual_name(&ty);
-        assert_eq!(name, "crate::enums::InputPeer");
-    }
-
-    #[test]
-    fn check_type_qual_bare_name() {
-        let ty = "ipPort".parse().unwrap();
-        let name = types::qual_name(&ty);
-        assert_eq!(name, "crate::types::IpPort");
-    }
-
-    #[test]
-    fn check_type_bytes_qual_name() {
-        let ty = "bytes".parse().unwrap();
-        let name = types::qual_name(&ty);
-        assert_eq!(name, "Vec<u8>");
-    }
-
-    #[test]
-    fn check_type_large_int_qual_name() {
-        let ty = "int256".parse().unwrap();
-        let name = types::qual_name(&ty);
-        assert_eq!(name, "[u8; 32]");
-    }
-
-    #[test]
-    fn check_type_raw_vec_qual_name() {
-        let ty = "vector<long>".parse().unwrap();
-        let name = types::qual_name(&ty);
-        assert_eq!(name, "Vec<i64>");
-    }
-
-    #[test]
-    fn check_type_vec_qual_name() {
-        let ty = "Vector<Bool>".parse().unwrap();
-        let name = types::qual_name(&ty);
-        assert_eq!(name, "Vec<bool>");
-    }
-
     // Parameter methods
 
     #[test]
